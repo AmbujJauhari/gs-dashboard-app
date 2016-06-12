@@ -54,14 +54,14 @@
             <version>1.2.1</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>com.gigaspaces</groupId>-->
-            <!--<artifactId>gs-openspaces</artifactId>-->
-            <!--<version>lite-10.2</version>-->
+        <!--<groupId>com.gigaspaces</groupId>-->
+        <!--<artifactId>gs-openspaces</artifactId>-->
+        <!--<version>lite-10.2</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>com.gigaspaces</groupId>-->
-            <!--<artifactId>gs-runtime</artifactId>-->
-            <!--<version>lite-10.2</version>-->
+        <!--<groupId>com.gigaspaces</groupId>-->
+        <!--<artifactId>gs-runtime</artifactId>-->
+        <!--<version>lite-10.2</version>-->
         <!--</dependency>-->
 
         <!--test-->
@@ -113,6 +113,31 @@
             <version>4.2.5.RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.athaydes</groupId>
+            <artifactId>spock-reports</artifactId>
+            <version>1.2.12</version>
+            <scope>test</scope>
+            <!-- this avoids affecting your version of Groovy/Spock -->
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.13</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.13</version>
+            <scope>test</scope>
+        </dependency>
         <!--End of test dependencies-->
 
         <dependency>
@@ -146,9 +171,9 @@
             <version>0.1.6</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>com.google.code.gson</groupId>-->
-            <!--<artifactId>gson</artifactId>-->
-            <!--<version>2.3.1</version>-->
+        <!--<groupId>com.google.code.gson</groupId>-->
+        <!--<artifactId>gson</artifactId>-->
+        <!--<version>2.3.1</version>-->
         <!--</dependency>-->
         <!-- http://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
         <dependency>
@@ -261,24 +286,6 @@
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>gsStandAloneDeployer</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!--To support pmd goals. For example: "mvn pmd:pmd" -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>2.7.1</version>
-                <configuration>
-                    <targetJdk>1.8</targetJdk>
-                </configuration>
-
-                <executions>
-                    <execution>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
