@@ -3,6 +3,7 @@
     <title>Ananta GS Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../resources/css/carousel.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,19 +11,6 @@
 
 </head>
 <style type="text/css">
-    .carousel {
-        background-color: rgba(0, 0, 0, 0.02);
-        margin-top: 3%;
-        margin-left: 25%;
-        height: 20%;
-        width: 50%;
-    }
-
-    .carousel-caption {
-        color: #843534;
-        position: static;
-    }
-
     body {
         background: url(/resources/images/nyc.jpg) center top no-repeat;
     }

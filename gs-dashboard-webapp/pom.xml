@@ -248,7 +248,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.12.3</version>
                 <configuration>
-                    <failIfNoTests>true</failIfNoTests>
+                    <failIfNoTests>false</failIfNoTests>
                     <includes>
                         <include>**/*Test*.*</include>
                     </includes>
@@ -268,7 +268,7 @@
                                 <exclude>none</exclude>
                             </excludes>
                             <includes>
-                                <include>**/*IntegrationTest.java</include>
+                                <include>**/*ITest.java</include>
                             </includes>
                         </configuration>
                     </execution>
@@ -283,7 +283,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>pre-integration-test</phase>
+                        <phase>none</phase>
                         <goals>
                             <goal>gsStandAloneDeployer</goal>
                         </goals>
