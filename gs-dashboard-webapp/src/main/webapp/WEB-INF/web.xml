@@ -3,9 +3,9 @@
           http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     version="3.0">
   <display-name>Spring mvc playground</display-name>
-  <!--<welcome-file-list>
+  <welcome-file-list>
     <welcome-file>welcome.jsp</welcome-file>
-  </welcome-file-list>-->
+  </welcome-file-list>
   
     <servlet>
         <servlet-name>sandbox</servlet-name>

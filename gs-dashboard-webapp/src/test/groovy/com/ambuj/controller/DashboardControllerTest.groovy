@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import spock.lang.Ignore
 import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -24,6 +25,7 @@ class DashboardControllerTest extends Specification {
         mockMvc = MockMvcBuilders.standaloneSetup(dashboardController).build()
     }
 
+    @Ignore
     def 'request to index page returns the list of gigaspace configured grids'() {
         when: 'request to index page'
         lookUpService.gsLookUpDetails() >> [
@@ -52,6 +54,7 @@ class DashboardControllerTest extends Specification {
 
     }
 
+    @Ignore
     def 'request to home page redirects to index page'() {
         when:'request to homepage'
         ResultActions resultActions =

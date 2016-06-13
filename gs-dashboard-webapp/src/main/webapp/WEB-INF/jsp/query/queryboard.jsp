@@ -18,7 +18,8 @@
     </script>
     <script src="../../../resources/js/main.js"></script>
     <script src="../../../resources/js/TypeAheadController.js"></script>
-    <script src="../../../resources/js/QueryBoardController.js"/>
+    <script src="../../../resources/js/gsenv.js"></script>
+    <%--<script src="../../../resources/js/QueryBoardController.js"/>--%>
 </head>
 
 <body>
@@ -31,7 +32,7 @@
 <div class='container-fluid typeahead-demo' ng-controller="documentNameTypeAheadController">
     <h1>Query Board</h1>
 
-    <form class="form-inline" role="form" ng-controller="queryController" ng-submit="submit()">
+    <form class="form-inline" role="form" ng-submit="submit()">
         <div class="form-group">
             <input type="text" placeholder="type-name" ng-model="selectedDocumentTypeName"
                    uib-typeahead="state for state in states | filter:$viewValue | limitTo:8"
@@ -76,7 +77,8 @@
                                     <td>{{ property.key }}</td>
                                     <td>
                                         <div ng-show="property.disabled">{{property.value}}</div>
-                                        <div ng-hide="property.disabled"><input type="text" ng-model="property.value"/></div>
+                                        <div ng-hide="property.disabled"><input type="text" ng-model="property.value"/>
+                                        </div>
                                 </tr>
                             </table>
                         </div>

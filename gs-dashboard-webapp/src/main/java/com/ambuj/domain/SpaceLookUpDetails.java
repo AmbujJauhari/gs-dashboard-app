@@ -32,6 +32,10 @@ public class SpaceLookUpDetails {
         return secured;
     }
 
+    public void setEnvName(String envName) {
+        this.envName = envName;
+    }
+
     public static final class SpaceLookUpDetailsBuilder {
         private String envName;
         private String url;
