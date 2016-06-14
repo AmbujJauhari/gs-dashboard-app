@@ -1,9 +1,11 @@
 package com.ambuj.service;
 
 import com.ambuj.domain.SpaceLookUpDetails;
+import com.ambuj.exception.ConfigNotFoundException;
 import com.ambuj.util.ResourceLoadUtil;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import org.apache.commons.lang3.ArrayUtils;
 import org.openspaces.core.GigaSpace;
 import org.openspaces.core.GigaSpaceConfigurer;
 import org.openspaces.core.space.UrlSpaceConfigurer;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -37,6 +40,7 @@ public class SpaceLookUpService {
     public void getAllConfigs() {
         try {
             Resource[] confFiles = resourceLoadUtil.loadResources("classpath*:" + ENVCONFIG_DIR + configIdentifier);
+
             for (Resource resource : confFiles) {
                 String fileName = resource.getFilename();
                 String baseName = fileName.substring(0, fileName.indexOf("."));
@@ -64,6 +68,9 @@ public class SpaceLookUpService {
     }
 
     public List<SpaceLookUpDetails> gsLookUpDetails() {
+        if (CollectionUtils.isEmpty(lookUpDetails)) {
+            throw new ConfigNotFoundException(ENVCONFIG_DIR);
+        }
         return lookUpDetails;
     }
 

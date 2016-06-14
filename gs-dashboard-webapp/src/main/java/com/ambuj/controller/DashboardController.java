@@ -22,9 +22,7 @@ public class DashboardController {
 
 
     @RequestMapping(value = "getEnvList", method = GET)
-    public
-    @ResponseBody
-    List<SpaceLookUpDetails> helloWorld() {
+    public @ResponseBody List<SpaceLookUpDetails> helloWorld() {
         return spaceLookUpService.gsLookUpDetails();
     }
 
