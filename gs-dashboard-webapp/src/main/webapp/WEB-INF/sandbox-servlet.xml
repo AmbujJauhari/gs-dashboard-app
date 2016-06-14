@@ -8,7 +8,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context.xsd">
- 
+
 	<context:component-scan base-package="com.ambuj" />
 	<mvc:default-servlet-handler />
 	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"/>
@@ -29,8 +29,8 @@
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp" />
+		<property name="prefix" value="/WEB-INF/html/" />
+		<property name="suffix" value=".html" />
 	</bean>
- 
+
 </beans>

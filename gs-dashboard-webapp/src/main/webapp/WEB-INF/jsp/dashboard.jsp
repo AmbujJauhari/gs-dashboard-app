@@ -48,7 +48,7 @@
                         </c:when>
                         <c:otherwise>
                             <div class="item">
-                                <a href="query/queryboard.jsp?envName=${gsEnv.envName}">
+                                <a href="query/queryboard.html?envName=${gsEnv.envName}">
                                     <h3 class="carousel-caption text-primary center-block">${gsEnv.envName}</h3>
                                 </a>
                             </div>
