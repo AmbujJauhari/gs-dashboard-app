@@ -1,5 +1,6 @@
 package com.ambuj.exception;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +21,7 @@ public class RestExceptionProcessor {
     public ErrorInfo configNotFound(HttpServletRequest httpServletRequest, ConfigNotFoundException e) {
         ErrorInfo errorInfo = new ErrorInfo();
         errorInfo.setErrorMessage(e.getMessage());
-
+        errorInfo.setStackTrace(ExceptionUtils.getStackTrace(e));
         return errorInfo;
     }
 }

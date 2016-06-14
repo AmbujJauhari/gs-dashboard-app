@@ -31,11 +31,10 @@ angular.module('ui.bootstrap.demo').controller('CarouselDemoCtrl', function ($sc
             $uibModal.open({
                 templateUrl: 'error/ErrorModal.html',
                 controller: 'ErrModalInstanceCtrl',
-                size: 'sm',
                 resolve: {
-                    errormessage: function () {
+                    error: function () {
                         console.log('error=' + errordata.errorMessage)
-                        return errordata.errorMessage;
+                        return errordata;
                     }
                 }
             });
@@ -45,9 +44,9 @@ angular.module('ui.bootstrap.demo').controller('CarouselDemoCtrl', function ($sc
 
 });
 
-angular.module('ui.bootstrap.demo').controller('ErrModalInstanceCtrl', function ($scope, $uibModalInstance, errormessage) {
-    $scope.errormessage = errormessage;
-
+angular.module('ui.bootstrap.demo').controller('ErrModalInstanceCtrl', function ($scope, $uibModalInstance, error) {
+    $scope.errormessage = error.errorMessage;
+    $scope.stacktrace = error.stackTrace;
 
     $scope.ok = function () {
         $uibModalInstance.close('closed');

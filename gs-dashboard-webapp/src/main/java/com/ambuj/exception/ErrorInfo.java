@@ -5,6 +5,15 @@ package com.ambuj.exception;
  */
 public class ErrorInfo {
     private String errorMessage;
+    private String stackTrace;
+
+    public String getStackTrace() {
+        return stackTrace;
+    }
+
+    public void setStackTrace(String stackTrace) {
+        this.stackTrace = stackTrace;
+    }
 
     public String getErrorMessage() {
         return errorMessage;
