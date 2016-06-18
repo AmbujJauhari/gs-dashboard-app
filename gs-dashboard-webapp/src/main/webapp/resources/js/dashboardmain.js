@@ -1,0 +1,1 @@
+angular.module('dashboardApp', ['ngAnimate', 'ui.bootstrap', 'ngTable', 'pageslide-directive']);

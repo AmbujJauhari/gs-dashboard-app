@@ -1,12 +1,13 @@
-<html ng-app="ui.bootstrap.demo">
+<html ng-app="dashboardApp">
 <head>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://rawgit.com/esvit/ng-table/master/dist/ng-table.min.js"></script>
-    <script src="resources/js/main.js"></script>
+    <script src="resources/js/dashboardmain.js"></script>
     <script src="resources/js/CarouselController.js"></script>
+    <script src="resources/js/angular-pageslide-directive.js"></script>
     <script src="resources/js/gsenv.js"></script>
 </head>
 <body>
@@ -15,22 +16,39 @@
     body {
         background: url(/resources/images/nyc.jpg) center top no-repeat;
     }
+
+    .ng-pageslide {
+        background: #ac2925;
+    }
+
 </style>
-<div ng-controller="CarouselDemoCtrl" class="container-fluid">
-    <h1 class="text-center text-primary">Welcome to ananta-gs dashboard</h1>
-    <div style="height: 305px; width: 450px; margin:auto">
-        <uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+<div ng-controller="CarouselDemoCtrl" class="container-fluid col-md-12 col-md-offset-10" >
+    <h1 class="text-center text-primary centered">Welcome to ananta-gs dashboard</h1>
+    <div>
+        <uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides" style="height: 305px; width: 450px; margin:auto">
             <uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
                 <img ng-src="/resources/images/cloud-home.jpg" style="margin:auto;">
                 <div class="carousel-caption">
                     <a href="#" ng-click='sendEnvName(slide.text)'>
-                        <h3 class="carousel-caption text-primary center-block" >
+                        <h3 class="carousel-caption text-primary center-block">
                             {{slide.text}}</h3>
                     </a>
                 </div>
             </uib-slide>
         </uib-carousel>
+        <a href="" style="background-color: #ac2925" ng-show="errorShow" ng-click="toggle()">There are exceptions during app initialization, click here to see details</a>
     </div>
+
+    <div>
+        <pageslide ps-open="checked" ps-side="left" ps-squeeze="true">
+            <div style="padding:20px" id="demo-right">
+                <h2>Exceptions : </h2>
+                <p style="word-wrap: break-word">{{exceptions}}</p>
+                <a ng-click="toggle()" class="button">Close</a>
+            </div>
+        </pageslide>
+    </div>
+
 </div>
 </body>
 </html>

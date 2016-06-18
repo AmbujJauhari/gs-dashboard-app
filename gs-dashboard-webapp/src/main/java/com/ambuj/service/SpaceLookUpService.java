@@ -1,8 +1,13 @@
 package com.ambuj.service;
 
 import com.ambuj.domain.SpaceLookUpDetails;
+import com.ambuj.domain.SpaceLookUpDto;
+import com.ambuj.exception.ConfigLoadException;
 import com.ambuj.exception.ConfigNotFoundException;
+import com.ambuj.exception.MalformedConfigException;
+import com.ambuj.exception.SpaceInstantiaionException;
 import com.ambuj.util.ResourceLoadUtil;
+import com.google.common.collect.Lists;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.apache.commons.lang3.ArrayUtils;
@@ -16,7 +21,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,44 +38,73 @@ public class SpaceLookUpService {
 
     private List<SpaceLookUpDetails> lookUpDetails = new ArrayList<>();
 
-    private Map<String, GigaSpace> envProxyMap = new HashMap<>();
+    private Map<SpaceLookUpDetails, GigaSpace> envProxyMap = new HashMap<>();
+
+    private List<Throwable> instantiationExceptions = new ArrayList<>();
 
     @PostConstruct
     public void getAllConfigs() {
+        Resource[] confFiles = null;
         try {
-            Resource[] confFiles = resourceLoadUtil.loadResources("classpath*:" + ENVCONFIG_DIR + configIdentifier);
+            confFiles = resourceLoadUtil.loadResources("classpath*:" + ENVCONFIG_DIR + configIdentifier);
+        } catch (Exception e) {
+            instantiationExceptions.add(new ConfigLoadException(e));
+        }
 
+        if (ArrayUtils.isEmpty(confFiles)) {
+            instantiationExceptions.add(new ConfigNotFoundException(ENVCONFIG_DIR));
+        } else {
             for (Resource resource : confFiles) {
-                String fileName = resource.getFilename();
-                String baseName = fileName.substring(0, fileName.indexOf("."));
-                Config config = ConfigFactory.load(ENVCONFIG_DIR + baseName);
-                lookUpDetails.add(new SpaceLookUpDetails.SpaceLookUpDetailsBuilder().buildWithConfig(config));
+                try {
+                    String fileName = resource.getFilename();
+                    String baseName = fileName.substring(0, fileName.indexOf("."));
+                    Config config = ConfigFactory.load(ENVCONFIG_DIR + baseName);
+                    lookUpDetails.addAll(new SpaceLookUpDetails.SpaceLookUpDetailsBuilder().buildWithConfig(config));
+                } catch (Exception ex) {
+                    instantiationExceptions.add(new MalformedConfigException(ex));
+                    continue;
+                }
             }
 
             for (SpaceLookUpDetails spaceLookUpDetails : lookUpDetails) {
-                if (spaceLookUpDetails.isSecured()) {
-                    UrlSpaceConfigurer urlSpaceConfigurer = new UrlSpaceConfigurer(spaceLookUpDetails.getUrl())
-                            .credentials(spaceLookUpDetails.getUserName(), spaceLookUpDetails.getPassword());
-                    envProxyMap.put(spaceLookUpDetails.getEnvName(), new GigaSpaceConfigurer(urlSpaceConfigurer).gigaSpace());
-                } else {
-                    UrlSpaceConfigurer urlSpaceConfigurer = new UrlSpaceConfigurer(spaceLookUpDetails.getUrl());
-                    envProxyMap.put(spaceLookUpDetails.getEnvName(), new GigaSpaceConfigurer(urlSpaceConfigurer).gigaSpace());
+                try {
+                    UrlSpaceConfigurer urlSpaceConfigurer;
+                    if (spaceLookUpDetails.isSecured()) {
+                        urlSpaceConfigurer = new UrlSpaceConfigurer(spaceLookUpDetails.getSpaceUrl())
+                                .credentials(spaceLookUpDetails.getUserName(), spaceLookUpDetails.getPassword());
+                    } else {
+                        urlSpaceConfigurer = new UrlSpaceConfigurer(spaceLookUpDetails.getSpaceUrl());
+                    }
+
+                    GigaSpace gigaSpace = new GigaSpaceConfigurer(urlSpaceConfigurer).gigaSpace();
+                    envProxyMap.put(spaceLookUpDetails, gigaSpace);
+                } catch (Exception e) {
+                    instantiationExceptions.add(new SpaceInstantiaionException(spaceLookUpDetails.getSpaceName()));
+                    continue;
                 }
+
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public GigaSpace getSpace(String envName) {
-        return envProxyMap.get(envName);
+    public GigaSpace getSpace(String envName, String spaceName) {
+        GigaSpace gigaSpace = null;
+        for (SpaceLookUpDetails spaceLookUpDetails : envProxyMap.keySet()) {
+            if (spaceLookUpDetails.getEnvName().equals(envName) && spaceLookUpDetails.getSpaceName().equals(spaceName)) {
+                gigaSpace = envProxyMap.get(spaceLookUpDetails);
+            }
+        }
+        return gigaSpace;
     }
 
-    public List<SpaceLookUpDetails> gsLookUpDetails() {
-        if (CollectionUtils.isEmpty(lookUpDetails)) {
-            throw new ConfigNotFoundException(ENVCONFIG_DIR);
-        }
-        return lookUpDetails;
+    public SpaceLookUpDto gsLookUpDetails() {
+        SpaceLookUpDto spaceLookUpDto = new SpaceLookUpDto();
+        SpaceLookUpDetails.SpaceLookUpDetailsBuilder builder = new SpaceLookUpDetails.SpaceLookUpDetailsBuilder();
+        spaceLookUpDto.setSpaceLookUpDetailsList(envProxyMap.keySet());
+        spaceLookUpDto.setExceptions(instantiationExceptions.toString());
+
+        return spaceLookUpDto;
+        //      return lookUpDetails;
     }
 
 }

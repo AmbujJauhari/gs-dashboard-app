@@ -29,28 +29,28 @@ public class SpaceAccessorService {
 
     public List<String> getAllDataTypesForSpace(SpaceLookUpDetails spaceLookUpDetails) throws RemoteException {
         List<String> typesInSpace = new ArrayList<>();
-        GigaSpace gigaSpace = spaceLookUpService.getSpace(spaceLookUpDetails.getEnvName());
+        GigaSpace gigaSpace = spaceLookUpService.getSpace(spaceLookUpDetails.getEnvName(), spaceLookUpDetails.getSpaceName());
         IJSpace ijSpace = gigaSpace.getSpace();
         IRemoteJSpaceAdmin spaceAdmin = (IRemoteJSpaceAdmin) ijSpace.getAdmin();
         typesInSpace = spaceAdmin.getRuntimeInfo().m_ClassNames;
         return typesInSpace;
     }
 
-    public Object[] getAllObjectsFromSpaceForTypeName(String envName, String typeName, String criteria) {
-        GigaSpace gigaSpace = spaceLookUpService.getSpace(envName);
+    public Object[] getAllObjectsFromSpaceForTypeName(String envName, String spaceName, String typeName, String criteria) {
+        GigaSpace gigaSpace = spaceLookUpService.getSpace(envName, spaceName);
         SQLQuery<Object> documentSQLQuery = new SQLQuery<>(typeName, criteria);
         return gigaSpace.readMultiple(documentSQLQuery);
     }
 
-    public Map<String, Object> getDetailedDataFromSpaceForTypeNameWithSpaceId(String envName, String typeName, String spaceId) throws Exception {
-        GigaSpace gigaSpace = spaceLookUpService.getSpace(envName);
+    public Map<String, Object> getDetailedDataFromSpaceForTypeNameWithSpaceId(String envName, String spaceName, String typeName, String spaceId) throws Exception {
+        GigaSpace gigaSpace = spaceLookUpService.getSpace(envName, spaceName);
         IdQuery<Object> objectIdQuery = new IdQuery<Object>(typeName, spaceId);
         Object queriedObject = gigaSpace.readById(objectIdQuery);
         return (Map<String, Object>) pojoToMapTransformer.doTransform(new MutableMessage<Object>(queriedObject));
     }
 
-    public void updateDataForTypeNameWithSpaceId(String envName, String dataType, String spaceIdName, DetailedDataEntry[] detailedDataEntries) throws Exception {
-        GigaSpace gigaSpace = spaceLookUpService.getSpace(envName);
+    public void updateDataForTypeNameWithSpaceId(String envName, String spaceName, String dataType, String spaceIdName, DetailedDataEntry[] detailedDataEntries) throws Exception {
+        GigaSpace gigaSpace = spaceLookUpService.getSpace(envName, spaceName);
         Object spaceId = null;
         Map<String, Object> fieldNameDataMap = new HashMap<>();
         for (DetailedDataEntry detailedDataEntry : detailedDataEntries) {
@@ -66,8 +66,8 @@ public class SpaceAccessorService {
         gigaSpace.write(updatedPojo);
     }
 
-    public String getSpaceIdFieldNameForType(String envName, String dataType) {
-        GigaSpace gigaSpace = spaceLookUpService.getSpace(envName);
+    public String getSpaceIdFieldNameForType(String envName, String spaceName, String dataType) {
+        GigaSpace gigaSpace = spaceLookUpService.getSpace(envName, spaceName);
         return gigaSpace.getTypeManager().getTypeDescriptor(dataType).getIdPropertyName();
     }
 }

@@ -9,6 +9,7 @@ import org.hamcrest.core.Is
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import spock.lang.Ignore
 import spock.lang.Specification
 
 import static com.ambuj.util.TestUtil.convertObjectToJsonBytes
@@ -18,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
+@Ignore
 class QueryControllerTest extends Specification {
     private QueryController mockMvcQueryContoller = new QueryController()
     private SpaceAccessorService accessorService = Mock(SpaceAccessorService)

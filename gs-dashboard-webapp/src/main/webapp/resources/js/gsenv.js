@@ -1,7 +1,7 @@
 /**
  * Created by Aj on 13-06-2016.
  */
-angular.module('ui.bootstrap.demo').factory('dataShare', function ($window) {
+angular.module('dashboardApp').factory('dataShare', function ($window) {
     var KEY = 'GS.SelectedENV';
     var sendEnvDetails = function (data) {
         var mydata = $window.sessionStorage.getItem(KEY);

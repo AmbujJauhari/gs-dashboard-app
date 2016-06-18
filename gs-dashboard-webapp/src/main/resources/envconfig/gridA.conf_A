@@ -1,9 +1,0 @@
-gs-env {
-    name = "Grid-A"
-    space-url = "jini://*/*/processorSpace"
-    secured = false
-    user {
-        name = "bloody"
-        password = "idiot"
-    }
-}

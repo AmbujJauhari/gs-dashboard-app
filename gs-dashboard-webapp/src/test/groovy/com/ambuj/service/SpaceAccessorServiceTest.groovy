@@ -8,8 +8,10 @@ import com.j_spaces.core.client.SQLQuery
 import org.openspaces.core.GigaSpace
 import org.springframework.integration.support.MutableMessage
 import org.springframework.integration.transformer.ObjectToMapTransformer
+import spock.lang.Ignore
 import spock.lang.Specification
 
+@Ignore
 class SpaceAccessorServiceTest extends Specification {
     SpaceLookUpService spaceLookUpService = Mock()
     SpaceAccessorService accessorService

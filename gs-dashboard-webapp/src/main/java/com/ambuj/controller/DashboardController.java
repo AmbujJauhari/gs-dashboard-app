@@ -1,6 +1,7 @@
 package com.ambuj.controller;
 
 import com.ambuj.domain.SpaceLookUpDetails;
+import com.ambuj.domain.SpaceLookUpDto;
 import com.ambuj.service.SpaceLookUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,8 @@ public class DashboardController {
 
 
     @RequestMapping(value = "getEnvList", method = GET)
-    public @ResponseBody List<SpaceLookUpDetails> helloWorld() {
+    public @ResponseBody
+    SpaceLookUpDto helloWorld() {
         return spaceLookUpService.gsLookUpDetails();
     }
 

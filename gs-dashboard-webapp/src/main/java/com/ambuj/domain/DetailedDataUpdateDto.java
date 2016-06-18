@@ -7,9 +7,18 @@ import java.util.Arrays;
  */
 public class DetailedDataUpdateDto {
     private String gridName;
+    private String spaceName;
     private String dataTypeName;
     private String spaceIdName;
     private DetailedDataEntry[] detailedDataEntry;
+
+    public String getSpaceName() {
+        return spaceName;
+    }
+
+    public void setSpaceName(String spaceName) {
+        this.spaceName = spaceName;
+    }
 
     public String getGridName() {
         return gridName;
