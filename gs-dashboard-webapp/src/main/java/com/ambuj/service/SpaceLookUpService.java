@@ -7,7 +7,6 @@ import com.ambuj.exception.ConfigNotFoundException;
 import com.ambuj.exception.MalformedConfigException;
 import com.ambuj.exception.SpaceInstantiaionException;
 import com.ambuj.util.ResourceLoadUtil;
-import com.google.common.collect.Lists;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.apache.commons.lang3.ArrayUtils;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -85,6 +83,16 @@ public class SpaceLookUpService {
 
             }
         }
+    }
+
+    public List<String> getAllSpacesForGrid(String gridName) {
+        List<String> spacesForGrid = new ArrayList<>();
+        for (SpaceLookUpDetails spaceLookUpDetails : envProxyMap.keySet()) {
+            if (spaceLookUpDetails.getEnvName().equals(gridName)) {
+                spacesForGrid.add(spaceLookUpDetails.getSpaceName());
+            }
+        }
+        return spacesForGrid;
     }
 
     public GigaSpace getSpace(String envName, String spaceName) {

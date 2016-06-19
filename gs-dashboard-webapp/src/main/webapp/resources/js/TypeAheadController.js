@@ -1,12 +1,13 @@
-angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController', function ($scope, $http, $filter, ngTableParams,
+angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController', function ($scope, $http, $filter, NgTableParams,
                                                                                             $uibModal, $timeout, $log, $window,
-                                                                                            dataShare) {
+                                                                                            $routeParams) {
 
 
     $scope.selected = undefined;
-    getDocumentNames($scope, $http, dataShare, $window)
+    var gridName = $routeParams.gridName;
+    getDocumentNames($scope, $http, gridName)
 
-    
+
     $scope.submit = function () {
         var queryForm = {
             "gridName": dataShare.getData(),
@@ -118,8 +119,11 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
     };
 });
 
-function getDocumentNames($scope, $http, dataShare, $window) {
-    $http.get('http://localhost:8080/query/getAllDocumentTypesForSpace.html?envName='+dataShare.getData()).success(function (data) {
-        $scope.states = data
-    });
+function getDocumentNames($scope, $http, gridName) {
+    $http.get('http://localhost:8080/query/getListOfAllSpacesForGrid.html',
+        {params: {"gridName": gridName}})
+        .success(function (data) {
+            $scope.states = data
+        });
 }
+

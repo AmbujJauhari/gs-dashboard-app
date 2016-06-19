@@ -1,1 +1,1 @@
-angular.module('dashboardApp', ['ngAnimate', 'ui.bootstrap', 'ngTable', 'pageslide-directive']);
+angular.module('dashboardApp', ['ngAnimate', 'ui.bootstrap', 'pageslide-directive']);

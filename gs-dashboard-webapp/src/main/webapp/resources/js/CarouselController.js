@@ -1,19 +1,13 @@
 /**
  * Created by Aj on 14-06-2016.
  */
-angular.module('dashboardApp').controller('CarouselDemoCtrl', function ($scope, $http, dataShare, $uibModal) {
+angular.module('ui.bootstrap.demo').controller('CarouselDemoCtrl', function ($scope, $http, $uibModal, $location) {
     $scope.myInterval = 5000;
     $scope.noWrapSlides = false;
     $scope.active = 0;
     $scope.errorShow = false;
     var slides = $scope.slides = [];
     var currIndex = 0;
-
-    $scope.sendEnvName = function (data) {
-        dataShare.sendEnvDetails(data);
-
-        window.location.href = "query/queryboard.html";
-    }
 
     $scope.addSlide = function (envName) {
         slides.push({
@@ -51,12 +45,18 @@ angular.module('dashboardApp').controller('CarouselDemoCtrl', function ($scope, 
         });
 
     $scope.toggle = function () {
+        alert("toggle clicked");
         $scope.checked = !$scope.checked;
+    }
+    
+    $scope.sendEnvName = function (gridName) {
+        alert(gridName)
+        $location.path("/queryBoard/"+gridName);
     }
 
 });
 
-angular.module('dashboardApp').controller('ErrModalInstanceCtrl', function ($scope, $uibModalInstance, error) {
+angular.module('ui.bootstrap.demo').controller('ErrModalInstanceCtrl', function ($scope, $uibModalInstance, error) {
     $scope.errormessage = error.errorMessage;
     $scope.stacktrace = error.stackTrace;
 

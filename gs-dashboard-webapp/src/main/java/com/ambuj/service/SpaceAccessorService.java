@@ -70,4 +70,8 @@ public class SpaceAccessorService {
         GigaSpace gigaSpace = spaceLookUpService.getSpace(envName, spaceName);
         return gigaSpace.getTypeManager().getTypeDescriptor(dataType).getIdPropertyName();
     }
+
+    public List<String> getAllSpacesForGrid(String gridName) {
+        return spaceLookUpService.getAllSpacesForGrid(gridName);
+    }
 }

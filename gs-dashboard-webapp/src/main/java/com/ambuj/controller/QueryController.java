@@ -31,6 +31,14 @@ public class QueryController {
         return "query/queryboard";
     }
 
+
+    @RequestMapping(value = "getListOfAllSpacesForGrid")
+    public
+    @ResponseBody
+    List<String> getListOfAllSpacesForGrid(@RequestParam String gridName) {
+        return spaceAccessorService.getAllSpacesForGrid(gridName);
+    }
+
     @RequestMapping(value = "getAllDocumentTypesForSpace")
     public
     @ResponseBody
