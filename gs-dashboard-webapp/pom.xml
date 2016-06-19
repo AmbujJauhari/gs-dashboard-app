@@ -53,16 +53,6 @@
             <artifactId>config</artifactId>
             <version>1.2.1</version>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>com.gigaspaces</groupId>-->
-        <!--<artifactId>gs-openspaces</artifactId>-->
-        <!--<version>lite-10.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>com.gigaspaces</groupId>-->
-        <!--<artifactId>gs-runtime</artifactId>-->
-        <!--<version>lite-10.2</version>-->
-        <!--</dependency>-->
 
         <!--test-->
         <dependency>
@@ -170,12 +160,6 @@
             <artifactId>json-flattener</artifactId>
             <version>0.1.6</version>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>com.google.code.gson</groupId>-->
-        <!--<artifactId>gson</artifactId>-->
-        <!--<version>2.3.1</version>-->
-        <!--</dependency>-->
-        <!-- http://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
@@ -191,14 +175,6 @@
             <artifactId>spring-integration-core</artifactId>
             <version>4.2.6.RELEASE</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlets -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlets</artifactId>
-            <version>9.3.3.v20150827</version>
-        </dependency>
-
     </dependencies>
 
     <build>
