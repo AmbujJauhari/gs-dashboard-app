@@ -49,7 +49,7 @@ class DashboardControllerTest extends Specification {
 
         ResultActions resultActions =
                 mockMvc.perform(
-                        get("http://localhost:8080/getEnvList"))
+                        get("/getEnvList"))
 
         then:
         resultActions.andExpect(content().contentType(APPLICATION_JSON_UTF8))

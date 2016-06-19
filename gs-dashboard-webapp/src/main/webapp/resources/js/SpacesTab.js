@@ -4,7 +4,7 @@
 angular.module('ui.bootstrap.demo').controller('tabbedSpaceController',function ($scope, $http, $routeParams) {
     var gridName = $routeParams.gridName;
 
-    $http.get('http://localhost:8080/query/getListOfAllSpacesForGrid.html',
+    $http.get('/query/getListOfAllSpacesForGrid.html',
         {params: {"gridName": gridName}})
         .success(function (data) {
             console.log(data)

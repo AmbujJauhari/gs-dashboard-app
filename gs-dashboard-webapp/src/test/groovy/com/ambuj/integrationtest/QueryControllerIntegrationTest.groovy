@@ -50,7 +50,7 @@ class QueryControllerIntegrationTest extends Specification {
         when: "post rest request for query/getAllDocumentTypesForSpace"
         MockHttpServletResponse response =
                 mockMvc.perform(
-                        get("http://localhost:8080/query/getAllDocumentTypesForSpace")
+                        get("/query/getAllDocumentTypesForSpace")
                                 .param("gridName", gridName)
                                 .param('spaceName', spaceName))
                         .andReturn().getResponse()
@@ -76,7 +76,7 @@ class QueryControllerIntegrationTest extends Specification {
 
         when: "post rest request for query/getAllDocumentTypesForSpace"
         MockHttpServletResponse response =
-                mockMvc.perform(post("http://localhost:8080/query/getDataFromSpaceForType")
+                mockMvc.perform(post("/query/getDataFromSpaceForType")
                         .contentType(APPLICATION_JSON_UTF8)
                         .content(TestUtil.convertObjectToJsonBytes(dataRequestForTypeName)))
                         .andReturn().getResponse()
@@ -107,7 +107,7 @@ class QueryControllerIntegrationTest extends Specification {
         when: "post rest request for query/getAllDocumentTypesForSpace"
         MockHttpServletResponse response =
                 mockMvc.perform(
-                        get("http://localhost:8080/query/getDataFromSpaceForTypeForSpaceId")
+                        get("/query/getDataFromSpaceForTypeForSpaceId")
                                 .param("gridName", gridName)
                                 .param('dataType', dataType)
                                 .param('spaceId', spaceId)
@@ -149,7 +149,7 @@ class QueryControllerIntegrationTest extends Specification {
 
         when: "post rest request for query/updateDataInSpaceForTypeForSpaceId"
 
-        mockMvc.perform(post("http://localhost:8080/query/updateDataInSpaceForTypeForSpaceId")
+        mockMvc.perform(post("/query/updateDataInSpaceForTypeForSpaceId")
                 .contentType(APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(detailedDataUpdateDto)))
 

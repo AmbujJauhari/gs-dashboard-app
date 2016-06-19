@@ -1,0 +1,1 @@
+java -jar gs-dashboard-webapp/target/dependency/jetty-runner.jar --port 8010 gs-dashboard-webapp/target/gs-dashboard-webapp-1.0-SNAPSHOT.war

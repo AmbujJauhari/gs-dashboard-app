@@ -22,7 +22,7 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
             "spaceName": spaceName
         };
 
-        $http.post('http://localhost:8080/query/getDataFromSpaceForType.html', queryForm)
+        $http.post('/query/getDataFromSpaceForType.html', queryForm)
             .success(function (data) {
                 dataToBeSaved = data.dataPerField;
                 $scope.saveXls = true;
@@ -91,7 +91,7 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
         $uibModalInstance.setDetailedObjectProperties = function (dataType, parameter1, spaceIdVarName) {
             spaceIdName = spaceIdVarName;
             dataTypeDetails = dataType;
-            $http.get("http://localhost:8080/query/getDataFromSpaceForTypeForSpaceId.html",
+            $http.get("/query/getDataFromSpaceForTypeForSpaceId.html",
                 {params: {"gridName": gridName, "spaceName": spaceName, "dataType": dataType, "spaceId": parameter1}})
                 .success(function (data) {
                     var editableMap = [];
@@ -124,7 +124,7 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
                 detailedDataEntry: $scope.detailedObjectProperties,
                 spaceIdName: spaceIdName
             };
-            $http.post("http://localhost:8080/query/updateDataInSpaceForTypeForSpaceId", detailedObjectDataForUpdating);
+            $http.post("/query/updateDataInSpaceForTypeForSpaceId", detailedObjectDataForUpdating);
             $scope.updateEnabled = false;
             $uibModalInstance.close('close');
         };
@@ -138,7 +138,7 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
 });
 
 function getDocumentNames($scope, $http, gridName, spaceName) {
-    $http.get('http://localhost:8080/query/getAllDocumentTypesForSpace.html',
+    $http.get('/query/getAllDocumentTypesForSpace.html',
         {params: {"gridName": gridName, "spaceName": spaceName}})
         .success(function (data) {
             $scope.states = data
