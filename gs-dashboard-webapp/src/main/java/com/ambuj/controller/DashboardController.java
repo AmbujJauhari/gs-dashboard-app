@@ -24,14 +24,9 @@ public class DashboardController {
 
     @RequestMapping(value = "getEnvList", method = GET)
     public @ResponseBody
-    SpaceLookUpDto helloWorld() {
+    SpaceLookUpDto getGridNames() {
+        SpaceLookUpDto spaceLookUpDetails = spaceLookUpService.gsLookUpDetails();
         return spaceLookUpService.gsLookUpDetails();
     }
-
-//    @RequestMapping(value = "/", method = RequestMethod.GET)
-//    public String index() {
-//        return "redirect:/index";
-//    }
-
 
 }

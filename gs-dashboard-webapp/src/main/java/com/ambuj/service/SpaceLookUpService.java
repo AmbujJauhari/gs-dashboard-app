@@ -115,7 +115,6 @@ public class SpaceLookUpService {
             spaceLookUpDto.setExceptions(instantiationExceptions.toString());
         }
         return spaceLookUpDto;
-        //      return lookUpDetails;
     }
 
 }

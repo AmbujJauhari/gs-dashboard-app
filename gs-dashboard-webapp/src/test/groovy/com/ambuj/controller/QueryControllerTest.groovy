@@ -19,7 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@Ignore
 class QueryControllerTest extends Specification {
     private QueryController mockMvcQueryContoller = new QueryController()
     private SpaceAccessorService accessorService = Mock(SpaceAccessorService)
@@ -34,13 +33,16 @@ class QueryControllerTest extends Specification {
     def 'should return list of space document in json format when rest request is posted for getAllDocumentTypesForSpace'() {
         given: 'env name'
         String envName = 'GRID-A'
+        String spaceName = 'spaceName'
 
         when: "post rest request for query/getAllDocumentTypesForSpace"
         accessorService.getAllDataTypesForSpace(_ as SpaceLookUpDetails) >> ['Product', 'com.ambuj.domain.Person']
 
         ResultActions resultActions =
                 mockMvc.perform(
-                        get("http://localhost:8080/query/getAllDocumentTypesForSpace").param("envName", envName))
+                        get("http://localhost:8080/query/getAllDocumentTypesForSpace")
+                                .param("gridName", envName)
+                                .param("spaceName", spaceName))
 
         then: "status is 200 and response is received in json format"
         resultActions.andExpect(content().contentType(APPLICATION_JSON_UTF8))
@@ -54,12 +56,13 @@ class QueryControllerTest extends Specification {
         dataRequestForTypeName.setCriteria("")
         dataRequestForTypeName.setDataType(Person.class.simpleName)
         dataRequestForTypeName.setGridName('Grid-A')
+        dataRequestForTypeName.setSpaceName('spaceName')
 
         Object[] sampleData = TestDataCreator.getSampleData(2) as Object[]
 
         when: 'post rest request for query/getDataFromSpaceForType'
-        accessorService.getAllObjectsFromSpaceForTypeName('Grid-A', Person.class.simpleName, "") >> sampleData
-        accessorService.getSpaceIdFieldNameForType('Grid-A', Person.class.simpleName) >> 'name'
+        accessorService.getAllObjectsFromSpaceForTypeName('Grid-A', 'spaceName', Person.class.simpleName, "") >> sampleData
+        accessorService.getSpaceIdFieldNameForType('Grid-A', 'spaceName', Person.class.simpleName) >> 'name'
 
         ResultActions resultActions = mockMvc.perform(post('http://localhost:8080/query/getDataFromSpaceForType')
                 .contentType(APPLICATION_JSON_UTF8).content(convertObjectToJsonBytes(dataRequestForTypeName)))

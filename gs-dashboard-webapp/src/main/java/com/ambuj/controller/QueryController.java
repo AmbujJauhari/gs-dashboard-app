@@ -59,8 +59,11 @@ public class QueryController {
         String criteria = dataRequestForTypeName.getCriteria();
         String envName = dataRequestForTypeName.getGridName();
         String spaceName = dataRequestForTypeName.getSpaceName();
+
         Object[] allEntriesOfTypeName = spaceAccessorService.getAllObjectsFromSpaceForTypeName(envName, spaceName, documentName, criteria);
+
         EntriesForTypeName entriesForTypeName = new EntriesForTypeName();
+
         for (int i = 0; i < allEntriesOfTypeName.length; i++) {
             Map<String, String> valuesMap = describe(allEntriesOfTypeName[i]);
             if (i == 0) {
