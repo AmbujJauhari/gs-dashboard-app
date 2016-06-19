@@ -31,6 +31,10 @@ public class QueryController {
         return "query/queryboard";
     }
 
+    @RequestMapping(value = "TabbedSpaces", method = GET)
+    public String spaces() {
+        return "query/TabbedSpaces";
+    }
 
     @RequestMapping(value = "getListOfAllSpacesForGrid")
     public

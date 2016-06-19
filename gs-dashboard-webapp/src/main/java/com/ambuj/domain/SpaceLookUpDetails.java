@@ -87,8 +87,8 @@ public class SpaceLookUpDetails {
             return this;
         }
 
-        public SpaceLookUpDetailsBuilder withSpaceName(String envName) {
-            this.envName = envName;
+        public SpaceLookUpDetailsBuilder withSpaceName(String spaceName) {
+            this.spaceName = spaceName;
             return this;
         }
 

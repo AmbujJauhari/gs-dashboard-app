@@ -1,18 +1,22 @@
-angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController', function ($scope, $http, $filter, NgTableParams,
-                                                                                            $uibModal, $timeout, $log, $window,
-                                                                                            $routeParams) {
+angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController', function ($scope, $http, $filter, ngTableParams,
+                                                                                            $uibModal, $timeout, $log
+) {
 
 
     $scope.selected = undefined;
-    var gridName = $routeParams.gridName;
-    getDocumentNames($scope, $http, gridName)
+    var gridName = $scope.gridName;
+    var spaceName = $scope.space;
+    console.log(gridName);
+    console.log(spaceName);
+    getDocumentNames($scope, $http, gridName, spaceName)
 
 
     $scope.submit = function () {
         var queryForm = {
-            "gridName": dataShare.getData(),
+            "gridName": gridName,
             "dataType": $scope.selectedDocumentTypeName,
-            "criteria": $scope.queryCriteria
+            "criteria": $scope.queryCriteria,
+            "spaceName" : spaceName
         };
 
         $http.post('http://localhost:8080/query/getDataFromSpaceForType.html', queryForm)
@@ -77,7 +81,7 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
             spaceIdName = spaceIdVarName;
             dataTypeDetails = dataType;
             $http.get("http://localhost:8080/query/getDataFromSpaceForTypeForSpaceId.html",
-                {params: {"gridName": dataShare.getData(), "dataType": dataType, "spaceId": parameter1}})
+                {params: {"gridName": gridName, "spaceName": spaceName, "dataType": dataType, "spaceId": parameter1}})
                 .success(function (data) {
                     var editableMap = [];
                     for (var i in data) {
@@ -103,7 +107,8 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
         $scope.save = function () {
             console.log($scope.detailedObjectProperties);
             var detailedObjectDataForUpdating = {
-                gridName: dataShare.getData(),
+                gridName: gridName,
+                spaceName: spaceName,
                 dataTypeName: dataTypeDetails,
                 detailedDataEntry: $scope.detailedObjectProperties,
                 spaceIdName: spaceIdName
@@ -119,9 +124,9 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
     };
 });
 
-function getDocumentNames($scope, $http, gridName) {
-    $http.get('http://localhost:8080/query/getListOfAllSpacesForGrid.html',
-        {params: {"gridName": gridName}})
+function getDocumentNames($scope, $http, gridName, spaceName) {
+    $http.get('http://localhost:8080/query/getAllDocumentTypesForSpace.html',
+        {params: {"gridName": gridName, "spaceName": spaceName}})
         .success(function (data) {
             $scope.states = data
         });

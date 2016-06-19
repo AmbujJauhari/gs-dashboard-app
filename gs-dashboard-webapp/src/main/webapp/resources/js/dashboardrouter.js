@@ -7,8 +7,8 @@ angular.module('ui.bootstrap.demo').config(['$routeProvider', function($routePro
     }).
 
     when('/queryBoard/:gridName', {
-        templateUrl: 'query/queryboard.html',
-        controller: 'documentNameTypeAheadController',
+        templateUrl: 'query/TabbedSpaces.html',
+        controller: 'tabbedSpaceController',
     }).
 
     otherwise({
