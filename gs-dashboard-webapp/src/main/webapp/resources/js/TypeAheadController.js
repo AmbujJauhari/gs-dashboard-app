@@ -1,14 +1,17 @@
 angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController', function ($scope, $http, $filter, ngTableParams,
-                                                                                            $uibModal, $timeout, $log
-) {
+                                                                                            $uibModal, $timeout, $log) {
 
 
     $scope.selected = undefined;
     var gridName = $scope.gridName;
     var spaceName = $scope.space;
+    $scope.saveXls = false;
     console.log(gridName);
     console.log(spaceName);
     getDocumentNames($scope, $http, gridName, spaceName)
+
+
+    var dataToBeSaved;
 
 
     $scope.submit = function () {
@@ -16,11 +19,13 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
             "gridName": gridName,
             "dataType": $scope.selectedDocumentTypeName,
             "criteria": $scope.queryCriteria,
-            "spaceName" : spaceName
+            "spaceName": spaceName
         };
 
         $http.post('http://localhost:8080/query/getDataFromSpaceForType.html', queryForm)
             .success(function (data) {
+                dataToBeSaved = data.dataPerField;
+                $scope.saveXls = true;
                 $scope.headerNames = data.fieldNames;
                 $scope.spaceIdFieldName = data.spaceIdFieldName
                 $scope.detailedTypeData = data.dataPerField;
@@ -39,6 +44,12 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
                     }
                 });
             });
+    };
+
+    $scope.exportData = function () {
+        alert("water water everywhere")
+        console.log("water")
+        alasql('SELECT * INTO XLSX("' + $scope.selectedDocumentTypeName + '.xlsx",{headers:true}) FROM ?', [dataToBeSaved]);
     };
 
 
@@ -121,6 +132,8 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
+
+
     };
 });
 
