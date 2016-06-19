@@ -1,4 +1,4 @@
-angular.module('ui.bootstrap.demo').controller('queryController', function ($scope, $http, $filter, ngTableParams,
+angular.module('ui.bootstrap.demo').controller('queryController', function ($scope, $http, $filter,
                                                                             $uibModal, $timeout, $log) {
     $scope.submit = function () {
         var queryForm = {
@@ -7,26 +7,26 @@ angular.module('ui.bootstrap.demo').controller('queryController', function ($sco
             "criteria": $scope.queryCriteria
         };
         
-        $http.post('http://localhost:8080/query/getDataFromSpaceForType.html', queryForm)
-            .success(function (data) {
-                $scope.headerNames = data.fieldNames;
-                $scope.spaceIdFieldName = data.spaceIdFieldName
-                $scope.detailedTypeData = data.dataPerField;
-                $scope.tableParams = new ngTableParams({
-                    page: 1,
-                    count: 10,
-                    filter: {
-                        name: 'M'
-                    }
-                }, {
-                    total: $scope.detailedTypeData.length,
-                    getData: function ($defer, params) {
-                        $scope.paginatedDetailedDataType =
-                            $scope.detailedTypeData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-                        $defer.resolve($scope.paginatedDetailedDataType);
-                    }
-                });
-            });
+        // $http.post('http://localhost:8080/query/getDataFromSpaceForType.html', queryForm)
+        //     .success(function (data) {
+        //         $scope.headerNames = data.fieldNames;
+        //         $scope.spaceIdFieldName = data.spaceIdFieldName
+        //         $scope.detailedTypeData = data.dataPerField;
+        //         $scope.tableParams = new ngTableParams({
+        //             page: 1,
+        //             count: 10,
+        //             filter: {
+        //                 name: 'M'
+        //             }
+        //         }, {
+        //             total: $scope.detailedTypeData.length,
+        //             getData: function ($defer, params) {
+        //                 $scope.paginatedDetailedDataType =
+        //                     $scope.detailedTypeData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+        //                 $defer.resolve($scope.paginatedDetailedDataType);
+        //             }
+        //         });
+        //     });
     };
 
 

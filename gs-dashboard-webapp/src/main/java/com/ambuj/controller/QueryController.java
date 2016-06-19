@@ -7,14 +7,18 @@ import com.ambuj.domain.SpaceLookUpDetails;
 import com.ambuj.service.SpaceAccessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
 import static org.apache.commons.beanutils.BeanUtils.describe;
-import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 @RequestMapping("query/")
@@ -27,11 +31,23 @@ public class QueryController {
         return "query/queryboard";
     }
 
+    @RequestMapping(value = "TabbedSpaces", method = GET)
+    public String spaces() {
+        return "query/TabbedSpaces";
+    }
+
+    @RequestMapping(value = "getListOfAllSpacesForGrid")
+    public
+    @ResponseBody
+    List<String> getListOfAllSpacesForGrid(@RequestParam String gridName) {
+        return spaceAccessorService.getAllSpacesForGrid(gridName);
+    }
+
     @RequestMapping(value = "getAllDocumentTypesForSpace")
     public
     @ResponseBody
-    List<String> getAllDocumentTypesForSpace(@RequestParam String envName) throws RemoteException {
-        SpaceLookUpDetails spaceLookUpDetails = new SpaceLookUpDetails.SpaceLookUpDetailsBuilder().withEnvName(envName).build();
+    List<String> getAllDocumentTypesForSpace(@RequestParam String gridName, @RequestParam String spaceName) throws RemoteException {
+        SpaceLookUpDetails spaceLookUpDetails = new SpaceLookUpDetails.SpaceLookUpDetailsBuilder().withEnvName(gridName).withSpaceName(spaceName).build();
         return spaceAccessorService.getAllDataTypesForSpace(spaceLookUpDetails);
     }
 
@@ -42,13 +58,17 @@ public class QueryController {
         String documentName = dataRequestForTypeName.getDataType();
         String criteria = dataRequestForTypeName.getCriteria();
         String envName = dataRequestForTypeName.getGridName();
-        Object[] allEntriesOfTypeName = spaceAccessorService.getAllObjectsFromSpaceForTypeName(envName, documentName, criteria);
+        String spaceName = dataRequestForTypeName.getSpaceName();
+
+        Object[] allEntriesOfTypeName = spaceAccessorService.getAllObjectsFromSpaceForTypeName(envName, spaceName, documentName, criteria);
+
         EntriesForTypeName entriesForTypeName = new EntriesForTypeName();
+
         for (int i = 0; i < allEntriesOfTypeName.length; i++) {
             Map<String, String> valuesMap = describe(allEntriesOfTypeName[i]);
             if (i == 0) {
                 entriesForTypeName.setFieldNames(valuesMap.keySet());
-                entriesForTypeName.setSpaceIdFieldName(spaceAccessorService.getSpaceIdFieldNameForType(envName, documentName));
+                entriesForTypeName.setSpaceIdFieldName(spaceAccessorService.getSpaceIdFieldNameForType(envName, spaceName, documentName));
             }
             entriesForTypeName.getDataPerField().add(valuesMap);
         }
@@ -60,6 +80,7 @@ public class QueryController {
     @ResponseBody
     void updateDataInSpaceForTypeForSpaceId(@RequestBody DetailedDataUpdateDto detailedDataUpdateDto) throws Exception {
         spaceAccessorService.updateDataForTypeNameWithSpaceId(detailedDataUpdateDto.getGridName(),
+                detailedDataUpdateDto.getSpaceName(),
                 detailedDataUpdateDto.getDataTypeName(),
                 detailedDataUpdateDto.getSpaceIdName(),
                 detailedDataUpdateDto.getDetailedDataEntry());
@@ -70,8 +91,9 @@ public class QueryController {
     @ResponseBody
     Map<String, Object> getDataFromSpaceForTypeForSpaceId(@RequestParam String spaceId,
                                                           @RequestParam String dataType,
-                                                          @RequestParam String gridName) throws Exception {
-        return spaceAccessorService.getDetailedDataFromSpaceForTypeNameWithSpaceId(gridName, dataType, spaceId);
+                                                          @RequestParam String gridName,
+                                                          @RequestParam String spaceName) throws Exception {
+        return spaceAccessorService.getDetailedDataFromSpaceForTypeNameWithSpaceId(gridName, spaceName, dataType, spaceId);
     }
 
     public SpaceAccessorService getSpaceAccessorService() {

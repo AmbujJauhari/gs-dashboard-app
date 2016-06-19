@@ -42,14 +42,17 @@ class QueryControllerIntegrationTest extends Specification {
 
     def 'should return list of space document in when rest request is posted for getAllDocumentTypesForSpace'() {
         given: 'env name'
-        String envName = 'Grid-A'
+        String gridName = 'Grid-A'
+        String spaceName = 'processorSpace'
 
         gigaSpace.write(TestDataCreator.getSampleData())
 
         when: "post rest request for query/getAllDocumentTypesForSpace"
         MockHttpServletResponse response =
                 mockMvc.perform(
-                        get("http://localhost:8080/query/getAllDocumentTypesForSpace").param("envName", envName))
+                        get("http://localhost:8080/query/getAllDocumentTypesForSpace")
+                                .param("gridName", gridName)
+                                .param('spaceName', spaceName))
                         .andReturn().getResponse()
 
         def content = new JsonSlurper().parseText(response.getContentAsString())
@@ -60,10 +63,11 @@ class QueryControllerIntegrationTest extends Specification {
     }
 
     @Unroll
-    def 'should data from space with headers and spaceIdFieldName filtered by criteria [#criteria]'() {
+    def 'should get data from space with headers and spaceIdFieldName filtered by criteria [#criteria]'() {
         given: 'typename gridname and criteria'
         DataRequestForTypeName dataRequestForTypeName = new DataRequestForTypeName()
         dataRequestForTypeName.gridName = 'Grid-A'
+        dataRequestForTypeName.spaceName = 'processorSpace'
         dataRequestForTypeName.dataType = Person.class.name
         dataRequestForTypeName.criteria = criteria
 
@@ -96,6 +100,7 @@ class QueryControllerIntegrationTest extends Specification {
         String spaceId = 'p0'
         String dataType = Person.class.name
         String gridName = 'Grid-A'
+        String spaceName = 'processorSpace'
 
         gigaSpace.write(TestDataCreator.getSampleData())
 
@@ -106,6 +111,7 @@ class QueryControllerIntegrationTest extends Specification {
                                 .param("gridName", gridName)
                                 .param('dataType', dataType)
                                 .param('spaceId', spaceId)
+                                .param('spaceName', spaceName)
                 ).andReturn().getResponse()
 
         def content = new JsonSlurper().parseText(response.getContentAsString())
@@ -123,6 +129,7 @@ class QueryControllerIntegrationTest extends Specification {
         detailedDataUpdateDto.gridName = 'Grid-A'
         detailedDataUpdateDto.dataTypeName = Person.class.name
         detailedDataUpdateDto.spaceIdName = 'name'
+        detailedDataUpdateDto.spaceName='processorSpace'
 
         and: 'publish test data'
         gigaSpace.write(sampleData)

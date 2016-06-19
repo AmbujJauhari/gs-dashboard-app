@@ -8,6 +8,7 @@ import com.j_spaces.core.client.SQLQuery
 import org.openspaces.core.GigaSpace
 import org.springframework.integration.support.MutableMessage
 import org.springframework.integration.transformer.ObjectToMapTransformer
+import spock.lang.Ignore
 import spock.lang.Specification
 
 class SpaceAccessorServiceTest extends Specification {
@@ -17,7 +18,7 @@ class SpaceAccessorServiceTest extends Specification {
     GigaSpace gsProxy = Mock()
 
     def setup() {
-        spaceLookUpService.getSpace(_ as String) >> gsProxy
+        spaceLookUpService.getSpace(_ as String, _ as String) >> gsProxy
         accessorService = new SpaceAccessorService(spaceLookUpService: spaceLookUpService)
     }
 
@@ -26,9 +27,10 @@ class SpaceAccessorServiceTest extends Specification {
         String envName = 'Grid-A'
         String dataType = 'data'
         String criteria = 'some-criteria'
+        String spaceName = 'spaceName'
 
         when: 'call space accessor service to get all objects from space for typename'
-        accessorService.getAllObjectsFromSpaceForTypeName(envName, dataType, criteria)
+        accessorService.getAllObjectsFromSpaceForTypeName(envName, spaceName, dataType, criteria)
 
         then: 'readMultiple method is invoked on gigapsace proxy'
         1 * gsProxy.readMultiple(_ as SQLQuery)
@@ -39,6 +41,7 @@ class SpaceAccessorServiceTest extends Specification {
         String envName = 'Grid-A'
         String dataType = Person.class.simpleName
         String spaceId = 'some-criteria'
+        String spaceName = 'spaceName'
 
         TestDataCreator testDataCreator = new TestDataCreator()
         Person samplePersonDataForTest = testDataCreator.getSampleData()
@@ -47,7 +50,7 @@ class SpaceAccessorServiceTest extends Specification {
         when: 'request all object for typename'
         gsProxy.readById(_ as IdQuery) >> samplePersonDataForTest
         Map<String, Object> detailedFieldValueMap =
-                accessorService.getDetailedDataFromSpaceForTypeNameWithSpaceId(envName, dataType, spaceId)
+                accessorService.getDetailedDataFromSpaceForTypeNameWithSpaceId(envName, spaceName, dataType, spaceId)
 
         then: 'should return flattened object as a key value pair'
         mapTransformer.doTransform(new MutableMessage<Object>(samplePersonDataForTest)) == detailedFieldValueMap
@@ -58,6 +61,7 @@ class SpaceAccessorServiceTest extends Specification {
         String envName = 'Grid-A'
         String dataType = Person.class.simpleName
         String spaceId = 'name'
+        String spaceName = 'spaceName'
 
         TestDataCreator testDataCreator = new TestDataCreator()
         Person samplePersonDataForTest = testDataCreator.getSampleData()
@@ -77,7 +81,7 @@ class SpaceAccessorServiceTest extends Specification {
 
         when: 'request for updating the object'
         gsProxy.takeById(_ as IdQuery) >> samplePersonDataForTest
-        accessorService.updateDataForTypeNameWithSpaceId(envName, dataType, spaceId, detailedDataEntries)
+        accessorService.updateDataForTypeNameWithSpaceId(envName, spaceName, dataType, spaceId, detailedDataEntries)
 
         then: 'calls to gigaspace write method'
         1 * gsProxy.write(_ as Person)

@@ -4,7 +4,7 @@
     version="3.0">
   <display-name>Spring mvc playground</display-name>
   <welcome-file-list>
-    <welcome-file>welcome.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   
     <servlet>

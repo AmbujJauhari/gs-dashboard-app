@@ -5,8 +5,17 @@ package com.ambuj.domain;
  */
 public class DataRequestForTypeName {
     private String gridName;
+    private String spaceName;
     private String dataType;
     private String criteria;
+
+    public String getSpaceName() {
+        return spaceName;
+    }
+
+    public void setSpaceName(String spaceName) {
+        this.spaceName = spaceName;
+    }
 
     public String getGridName() {
         return gridName;

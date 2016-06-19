@@ -268,7 +268,7 @@
                                 <exclude>none</exclude>
                             </excludes>
                             <includes>
-                                <include>**/*ITest.java</include>
+                                <include>**/*IntegrationTest.class</include>
                             </includes>
                         </configuration>
                     </execution>
@@ -283,7 +283,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>none</phase>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>gsStandAloneDeployer</goal>
                         </goals>

@@ -1,0 +1,96 @@
+<div>
+    <uib-tabset>
+        <uib-tab ng-repeat="space in spaces"
+                 heading="{{space}}-{{gridName}}"
+                 active=workspace.active>
+            <div ng-controller="documentNameTypeAheadController"
+                 ng-init="workspace=workspace">
+                <div>
+                    <script type="text/css">
+                        .app-modal-window .modal-dialog {
+                            width: 500px;
+                        }
+                    </script>
+
+                    <body>
+                    <script type="text/html">
+                        <ul class="dropdown-menu" role="listbox">
+                            <li ng-repeat="match in matches track by $index"/>
+                        </ul>
+                    </script>
+
+                    <div class='container-fluid typeahead-demo'>
+                        <h1>Query Board</h1>
+
+                        <form class="form-inline" role="form" ng-submit="submit()">
+                            <div class="form-group">
+                                <input type="text" placeholder="type-name" ng-model="selectedDocumentTypeName"
+                                       uib-typeahead="state for state in states | filter:$viewValue | limitTo:8"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group col-md-offset-1">
+                                <input type="text" placeholder="search criteria" class="form-control" ng-model="queryCriteria">
+                            </div>
+
+                            <button type="submit" class="btn btn-default=">Submit Button</button>
+
+                            <img style="height: 40px; width: 40px" ng-show="saveXls" src="../../../resources/images/xlsIcon.ico" ng-click="exportData()">
+
+                            <div>
+                                <table ng-table="tableParams" show-filter="true" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th ng-repeat="headerName in headerNames"
+                                            class="text-center sortable">
+                                            {{headerName}}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="user in paginatedDetailedDataType">
+                                        <td ng-repeat="headerName in headerNames">
+                                            <div class="animate-switch" ng-if="headerName == spaceIdFieldName">
+                                                <a href="" ng-click="open(user[headerName])"> {{user[headerName]}} </a></div>
+                                            <div class="animate-switch" ng-if="headerName != spaceIdFieldName">{{user[headerName]}}</div>
+                                        </td>
+                                        <script type="text/ng-template" id="DetailedQueryView.html">
+                                            <div class="modal-header">
+                                                <h3>Detailed Query view for {{detailedTypeName}} spaceId {{detailedSpaceId}}</h3>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table ng-table="
+                                                " show-filter="true" class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Key</th>
+                                                        <th>Value</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="property in detailedObjectProperties">
+                                                        <td>{{ property.key }}</td>
+                                                        <td>
+                                                            <div ng-show="property.disabled">{{property.value}}</div>
+                                                            <div ng-hide="property.disabled"><input type="text" ng-model="property.value"/>
+                                                            </div>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-primary" ng-hide="updateEnabled" ng-click="edit()">Edit</button>
+                                                <button class="btn btn-primary" ng-show="updateEnabled" ng-click="save()">Save</button>
+                                                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                                            </div>
+                                        </script>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                    </body>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>
