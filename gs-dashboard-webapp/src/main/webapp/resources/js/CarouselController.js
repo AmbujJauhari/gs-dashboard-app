@@ -5,7 +5,7 @@ angular.module('ui.bootstrap.demo').controller('CarouselDemoCtrl', function ($sc
     $scope.myInterval = 5000;
     $scope.noWrapSlides = false;
     $scope.active = 0;
-    $scope.errorShow = false;
+    $scope.showError = false;
     var slides = $scope.slides = [];
     var currIndex = 0;
 
@@ -18,16 +18,19 @@ angular.module('ui.bootstrap.demo').controller('CarouselDemoCtrl', function ($sc
 
     $http.get("http://localhost:8080/getEnvList")
         .success(function (data) {
-            var envs = data.spaceLookUpDetailsList;
+            var envs = data.gridNames;
             for (var i in envs) {
-                $scope.addSlide(envs[i].envName);
+                $scope.addSlide(envs[i]);
             }
             
-            
-            if(data.exceptions) {
-                $scope.errorShow = true;
+            if (data.exceptions) {
+                // the array is defined and has at least one element
+                console.log('inside if'+data.exceptions[0])
+
+                $scope.showError = true;
                 $scope.exceptions = data.exceptions;
             }
+            
         })
         .error(function (errordata) {
             $uibModal.open({

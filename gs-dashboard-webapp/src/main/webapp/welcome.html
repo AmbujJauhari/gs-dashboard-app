@@ -12,7 +12,8 @@
 <div class="col-md-12 col-md-offset-10">
     <h1 class="text-center text-primary centered">Welcome to ananta-gs dashboard</h1>
     <div>
-        <uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides" style="height: 305px; width: 450px; margin:auto">
+        <uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides"
+                      style="height: 305px; width: 450px; margin:auto">
             <uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
                 <img ng-src="/resources/images/cloud-home.jpg" style="height:305px; margin:auto;">
                 <div class="carousel-caption">
@@ -23,7 +24,10 @@
                 </div>
             </uib-slide>
         </uib-carousel>
-        <a href="" style="background-color: #ac2925" ng-show="errorShow" ng-click="toggle()">There are exceptions during app initialization, click here to see details</a>
+
+        <a href="" style="background-color: #ac2925" ng-show="showError" ng-click="toggle()">
+            There are exceptions during app initialization, click here to see details
+        </a>
     </div>
 
     <div>

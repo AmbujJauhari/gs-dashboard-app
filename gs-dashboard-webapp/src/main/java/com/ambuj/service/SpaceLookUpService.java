@@ -108,9 +108,12 @@ public class SpaceLookUpService {
     public SpaceLookUpDto gsLookUpDetails() {
         SpaceLookUpDto spaceLookUpDto = new SpaceLookUpDto();
         SpaceLookUpDetails.SpaceLookUpDetailsBuilder builder = new SpaceLookUpDetails.SpaceLookUpDetailsBuilder();
-        spaceLookUpDto.setSpaceLookUpDetailsList(envProxyMap.keySet());
-        spaceLookUpDto.setExceptions(instantiationExceptions.toString());
-
+        for (SpaceLookUpDetails spaceLookUpDetails : envProxyMap.keySet()) {
+            spaceLookUpDto.getGridNames().add(spaceLookUpDetails.getEnvName());
+        }
+        if (instantiationExceptions.size() > 0) {
+            spaceLookUpDto.setExceptions(instantiationExceptions.toString());
+        }
         return spaceLookUpDto;
         //      return lookUpDetails;
     }

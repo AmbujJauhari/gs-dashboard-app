@@ -1,21 +1,21 @@
 package com.ambuj.domain;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by Aj on 18-06-2016.
  */
 public class SpaceLookUpDto {
-    private Set<SpaceLookUpDetails> spaceLookUpDetailsList;
+    private Set<String> gridNames = new HashSet<>(0);
     private String exceptions;
 
-    public Set<SpaceLookUpDetails> getSpaceLookUpDetailsList() {
-        return spaceLookUpDetailsList;
+    public Set<String> getGridNames() {
+        return gridNames;
     }
 
-    public void setSpaceLookUpDetailsList(Set<SpaceLookUpDetails> spaceLookUpDetailsList) {
-        this.spaceLookUpDetailsList = spaceLookUpDetailsList;
+    public void setGridNames(Set<String> gridNames) {
+        this.gridNames = gridNames;
     }
 
     public String getExceptions() {
