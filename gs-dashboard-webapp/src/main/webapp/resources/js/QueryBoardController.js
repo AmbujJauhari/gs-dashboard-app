@@ -7,26 +7,6 @@ angular.module('ui.bootstrap.demo').controller('queryController', function ($sco
             "criteria": $scope.queryCriteria
         };
         
-        // $http.post('http://localhost:8080/query/getDataFromSpaceForType.html', queryForm)
-        //     .success(function (data) {
-        //         $scope.headerNames = data.fieldNames;
-        //         $scope.spaceIdFieldName = data.spaceIdFieldName
-        //         $scope.detailedTypeData = data.dataPerField;
-        //         $scope.tableParams = new ngTableParams({
-        //             page: 1,
-        //             count: 10,
-        //             filter: {
-        //                 name: 'M'
-        //             }
-        //         }, {
-        //             total: $scope.detailedTypeData.length,
-        //             getData: function ($defer, params) {
-        //                 $scope.paginatedDetailedDataType =
-        //                     $scope.detailedTypeData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-        //                 $defer.resolve($scope.paginatedDetailedDataType);
-        //             }
-        //         });
-        //     });
     };
 
 
@@ -68,7 +48,7 @@ angular.module('ui.bootstrap.demo').controller('queryController', function ($sco
         $uibModalInstance.setDetailedObjectProperties = function (dataType, parameter1, spaceIdVarName) {
             spaceIdName = spaceIdVarName;
             dataTypeDetails = dataType;
-            $http.get("http://localhost:8080/query/getDataFromSpaceForTypeForSpaceId.html",
+            $http.get("/query/getDataFromSpaceForTypeForSpaceId.html",
                 {params: {"gridName": 'Grid-A', "dataType": dataType, "spaceId": parameter1}})
                 .success(function (data) {
                     var editableMap = [];
@@ -100,7 +80,7 @@ angular.module('ui.bootstrap.demo').controller('queryController', function ($sco
                 detailedDataEntry: $scope.detailedObjectProperties,
                 spaceIdName: spaceIdName
             };
-            $http.post("http://localhost:8080/query/updateDataInSpaceForTypeForSpaceId", detailedObjectDataForUpdating);
+            $http.post("/query/updateDataInSpaceForTypeForSpaceId", detailedObjectDataForUpdating);
             $scope.updateEnabled = false;
             $uibModalInstance.close('close');
         };

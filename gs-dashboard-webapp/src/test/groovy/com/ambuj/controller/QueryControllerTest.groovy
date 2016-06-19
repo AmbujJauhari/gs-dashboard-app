@@ -40,7 +40,7 @@ class QueryControllerTest extends Specification {
 
         ResultActions resultActions =
                 mockMvc.perform(
-                        get("http://localhost:8080/query/getAllDocumentTypesForSpace")
+                        get("/query/getAllDocumentTypesForSpace")
                                 .param("gridName", envName)
                                 .param("spaceName", spaceName))
 
@@ -64,7 +64,7 @@ class QueryControllerTest extends Specification {
         accessorService.getAllObjectsFromSpaceForTypeName('Grid-A', 'spaceName', Person.class.simpleName, "") >> sampleData
         accessorService.getSpaceIdFieldNameForType('Grid-A', 'spaceName', Person.class.simpleName) >> 'name'
 
-        ResultActions resultActions = mockMvc.perform(post('http://localhost:8080/query/getDataFromSpaceForType')
+        ResultActions resultActions = mockMvc.perform(post('/query/getDataFromSpaceForType')
                 .contentType(APPLICATION_JSON_UTF8).content(convertObjectToJsonBytes(dataRequestForTypeName)))
 
         then: 'status is 200 and response is json document with headers and data'

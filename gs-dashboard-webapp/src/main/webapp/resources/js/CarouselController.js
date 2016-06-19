@@ -16,7 +16,7 @@ angular.module('ui.bootstrap.demo').controller('CarouselDemoCtrl', function ($sc
         });
     };
 
-    $http.get("http://localhost:8080/getEnvList")
+    $http.get("/getEnvList")
         .success(function (data) {
             var envs = data.gridNames;
             for (var i in envs) {
