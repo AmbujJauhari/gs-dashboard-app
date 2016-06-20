@@ -1,16 +1,14 @@
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+
 <div>
-    <uib-tabset>
+    <uib-tabset justified="true">
         <uib-tab ng-repeat="space in spaces"
                  heading="{{space}}-{{gridName}}"
                  active=workspace.active>
             <div ng-controller="documentNameTypeAheadController"
-                 ng-init="workspace=workspace">
+                 ng-init="workspace=workspace" \>
                 <div>
-                    <script type="text/css">
-                        .app-modal-window .modal-dialog {
-                            width: 500px;
-                        }
-                    </script>
+
 
                     <body>
                     <script type="text/html">
@@ -19,7 +17,7 @@
                         </ul>
                     </script>
 
-                    <div class='container-fluid typeahead-demo'>
+                    <div class='typeahead-demo'>
                         <h1>Query Board</h1>
 
                         <form class="form-inline" role="form" ng-submit="submit()">
@@ -28,13 +26,20 @@
                                        uib-typeahead="state for state in states | filter:$viewValue | limitTo:8"
                                        class="form-control">
                             </div>
-                            <div class="form-group col-md-offset-1">
-                                <input type="text" placeholder="search criteria" class="form-control" ng-model="queryCriteria">
+                            <div class="form-group">
+                                <input type="text" placeholder="search criteria" class="form-control"
+                                       ng-model="queryCriteria">
                             </div>
 
                             <button type="submit" class="btn btn-default=">Submit Button</button>
 
-                            <img style="height: 40px; width: 40px" ng-show="saveXls" src="../../../resources/images/xlsIcon.ico" ng-click="exportData()">
+                            <img style="height: 40px; width: 40px" ng-show="saveXls"
+                                 src="../../../resources/images/xlsIcon.ico" ng-click="exportData()">
+
+
+                            <uib-progressbar class="progress-striped active" ng-show="showProgressBar" style="margin-top: 12%; width: 20%; margin-left: 40%" type="info">
+
+                            </uib-progressbar>
 
                             <div>
                                 <table ng-table="tableParams" show-filter="true" class="table">
@@ -50,14 +55,19 @@
                                     <tr ng-repeat="user in paginatedDetailedDataType">
                                         <td ng-repeat="headerName in headerNames">
                                             <div class="animate-switch" ng-if="headerName == spaceIdFieldName">
-                                                <a href="" ng-click="open(user[headerName])"> {{user[headerName]}} </a></div>
-                                            <div class="animate-switch" ng-if="headerName != spaceIdFieldName">{{user[headerName]}}</div>
+                                                <a href="" ng-click="open(user[headerName])"> {{user[headerName]}} </a>
+                                            </div>
+                                            <div class="animate-switch" ng-if="headerName != spaceIdFieldName">
+                                                {{user[headerName]}}
+                                            </div>
                                         </td>
                                         <script type="text/ng-template" id="DetailedQueryView.html">
                                             <div class="modal-header">
-                                                <h3>Detailed Query view for {{detailedTypeName}} spaceId {{detailedSpaceId}}</h3>
+                                                <h3>Detailed Query view for {{detailedTypeName}} spaceId
+                                                    {{detailedSpaceId}}</h3>
                                             </div>
-                                            <div class="modal-body">
+                                            <div class="modal-body" style="overflow-x: auto;">
+                                                <i class="fa fa-refresh fa-spin" ng-show="showModalLoad" style="font-size:60px;color:red;"></i>
                                                 <table ng-table="
                                                 " show-filter="true" class="table">
                                                     <thead>
@@ -71,14 +81,19 @@
                                                         <td>{{ property.key }}</td>
                                                         <td>
                                                             <div ng-show="property.disabled">{{property.value}}</div>
-                                                            <div ng-hide="property.disabled"><input type="text" ng-model="property.value"/>
+                                                            <div ng-hide="property.disabled"><input type="text"
+                                                                                                    ng-model="property.value"/>
                                                             </div>
                                                     </tr>
                                                 </table>
                                             </div>
                                             <div class="modal-footer">
-                                                <button class="btn btn-primary" ng-hide="updateEnabled" ng-click="edit()">Edit</button>
-                                                <button class="btn btn-primary" ng-show="updateEnabled" ng-click="save()">Save</button>
+                                                <button class="btn btn-primary" ng-hide="updateEnabled"
+                                                        ng-click="edit()">Edit
+                                                </button>
+                                                <button class="btn btn-primary" ng-show="updateEnabled"
+                                                        ng-click="save()">Save
+                                                </button>
                                                 <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
                                             </div>
                                         </script>

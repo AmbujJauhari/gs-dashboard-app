@@ -6,6 +6,7 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
     var gridName = $scope.gridName;
     var spaceName = $scope.space;
     $scope.saveXls = false;
+    $scope.showProgressBar = false;
     console.log(gridName);
     console.log(spaceName);
     getDocumentNames($scope, $http, gridName, spaceName)
@@ -15,6 +16,9 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
 
 
     $scope.submit = function () {
+        $scope.showProgressBar = true;
+        
+        alert("bhow bhow")
         var queryForm = {
             "gridName": gridName,
             "dataType": $scope.selectedDocumentTypeName,
@@ -24,6 +28,7 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
 
         $http.post('/query/getDataFromSpaceForType.html', queryForm)
             .success(function (data) {
+                $scope.showProgressBar = false;
                 dataToBeSaved = data.dataPerField;
                 $scope.saveXls = true;
                 $scope.headerNames = data.fieldNames;
@@ -54,7 +59,7 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
 
 
     $scope.open = function (parameter1) {
-
+        $scope.showModalLoad = true;
         var modalInstance = $uibModal.open({
             templateUrl: 'DetailedQueryView.html',
             controller: ModalInstanceCtrl,
