@@ -89,7 +89,7 @@ public class QueryController {
     @RequestMapping(value = "getDataFromSpaceForTypeForSpaceId", method = GET)
     public
     @ResponseBody
-    Map<String, Object> getDataFromSpaceForTypeForSpaceId(@RequestParam String spaceId,
+    Object getDataFromSpaceForTypeForSpaceId(@RequestParam String spaceId,
                                                           @RequestParam String dataType,
                                                           @RequestParam String gridName,
                                                           @RequestParam String spaceName) throws Exception {

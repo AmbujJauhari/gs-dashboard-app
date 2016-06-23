@@ -1,6 +1,8 @@
 package com.ambuj.domain;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Aj on 02-06-2016.
@@ -11,6 +13,7 @@ public class Country implements Serializable {
     private String countryName;
     private String continent;
     private Boolean isImmigrationAllowed;
+    private Map<String, String> countryContinentMap = new HashMap<>();
 
     public String getCountryName() {
         return countryName;
@@ -34,5 +37,17 @@ public class Country implements Serializable {
 
     public void setImmigrationAllowed(boolean immigrationAllowed) {
         isImmigrationAllowed = immigrationAllowed;
+    }
+
+    public Boolean getImmigrationAllowed() {
+        return isImmigrationAllowed;
+    }
+
+    public Map<String, String> getCountryContinentMap() {
+        return countryContinentMap;
+    }
+
+    public void setCountryContinentMap(Map<String, String> countryContinentMap) {
+        this.countryContinentMap = countryContinentMap;
     }
 }

@@ -4,6 +4,7 @@ package com.ambuj.service;
 import com.ambuj.domain.DetailedDataEntry;
 import com.ambuj.domain.SpaceLookUpDetails;
 import com.gigaspaces.query.IdQuery;
+import com.google.gson.Gson;
 import com.j_spaces.core.IJSpace;
 import com.j_spaces.core.admin.IRemoteJSpaceAdmin;
 import com.j_spaces.core.client.SQLQuery;
@@ -42,11 +43,11 @@ public class SpaceAccessorService {
         return gigaSpace.readMultiple(documentSQLQuery);
     }
 
-    public Map<String, Object> getDetailedDataFromSpaceForTypeNameWithSpaceId(String envName, String spaceName, String typeName, String spaceId) throws Exception {
+    public Object getDetailedDataFromSpaceForTypeNameWithSpaceId(String envName, String spaceName, String typeName, String spaceId) throws Exception {
         GigaSpace gigaSpace = spaceLookUpService.getSpace(envName, spaceName);
         IdQuery<Object> objectIdQuery = new IdQuery<Object>(typeName, spaceId);
         Object queriedObject = gigaSpace.readById(objectIdQuery);
-        return (Map<String, Object>) pojoToMapTransformer.doTransform(new MutableMessage<Object>(queriedObject));
+        return queriedObject;
     }
 
     public void updateDataForTypeNameWithSpaceId(String envName, String spaceName, String dataType, String spaceIdName, DetailedDataEntry[] detailedDataEntries) throws Exception {
@@ -59,10 +60,16 @@ public class SpaceAccessorService {
             }
             fieldNameDataMap.put(detailedDataEntry.getKey(), detailedDataEntry.getValue());
         }
+        Gson gson = new Gson();
+
+
         IdQuery<Object> objectIdQuery = new IdQuery<Object>(dataType, spaceId);
         Object pojoTobeUpdated = gigaSpace.takeById(objectIdQuery);
-        MapToObjectTransformer mapToObjectTransformer = new MapToObjectTransformer(pojoTobeUpdated.getClass());
-        Object updatedPojo = mapToObjectTransformer.doTransform(new MutableMessage<Object>(fieldNameDataMap));
+        //MapToObjectTransformer mapToObjectTransformer = new MapToObjectTransformer(pojoTobeUpdated.getClass());
+        String str = gson.toJson(fieldNameDataMap);
+        Object updatedPojo = gson.fromJson(gson.toJson(fieldNameDataMap), pojoTobeUpdated.getClass());
+        //mapToObjectTransformer.doTransform(new MutableMessage<Object>(fieldNameDataMap));
+
         gigaSpace.write(updatedPojo);
     }
 

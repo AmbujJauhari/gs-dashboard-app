@@ -99,17 +99,35 @@ angular.module('ui.bootstrap.demo').controller('documentNameTypeAheadController'
             $http.get("/query/getDataFromSpaceForTypeForSpaceId.html",
                 {params: {"gridName": gridName, "spaceName": spaceName, "dataType": dataType, "spaceId": parameter1}})
                 .success(function (data) {
-                    var editableMap = [];
-                    for (var i in data) {
-                        editableMap.push(
-                            {
-                                key: i,
-                                value: data[i],
-                                disabled: true
-                            }
-                        )
-                    }
-                    $scope.detailedObjectProperties = editableMap;
+                    // var editableMap = [];
+                    // for (var i in data) {
+                    //     editableMap.push(
+                    //         {
+                    //             key: i,
+                    //             value: data[i],
+                    //             disabled: true
+                    //         }
+                    //     )
+                    // }
+
+                    // $scope.jsonData = {
+                    //     Name: "Joe", "Last Name": "Miller", Address: {Street: "Neverland 42"}, Hobbies: ["doing stuff", "dreaming"]
+                    // };
+
+                    $scope.jsonData=data;
+
+                    $scope.$watch('jsonData', function(json) {
+                        $scope.jsonString = $filter('json')(json);
+                    }, true);
+                    $scope.$watch('jsonString', function(json) {
+                        try {
+                            $scope.jsonData = JSON.parse(json);
+                            $scope.wellFormed = true;
+                        } catch(e) {
+                            $scope.wellFormed = false;
+                        }
+                    }, true);
+                    //$scope.detailedObjectProperties = editableMap;
                 });
         };
 

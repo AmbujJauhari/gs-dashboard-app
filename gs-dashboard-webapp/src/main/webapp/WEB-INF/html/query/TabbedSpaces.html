@@ -68,24 +68,14 @@
                                             </div>
                                             <div class="modal-body" style="overflow-x: auto;">
                                                 <i class="fa fa-refresh fa-spin" ng-show="showModalLoad" style="font-size:60px;color:red;"></i>
-                                                <table ng-table="
-                                                " show-filter="true" class="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Key</th>
-                                                        <th>Value</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr ng-repeat="property in detailedObjectProperties">
-                                                        <td>{{ property.key }}</td>
-                                                        <td>
-                                                            <div ng-show="property.disabled">{{property.value}}</div>
-                                                            <div ng-hide="property.disabled"><input type="text"
-                                                                                                    ng-model="property.value"/>
-                                                            </div>
-                                                    </tr>
-                                                </table>
+                                                <div class="jsonView">
+                                                    <json child="jsonData" default-collapsed="false" type="object"></json>
+                                                </div>
+
+                                                <hr>
+                                                <div>
+                                                    <textarea id="jsonTextarea" ng-model="jsonString" ng-show="false"></textarea>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn btn-primary" ng-hide="updateEnabled"
